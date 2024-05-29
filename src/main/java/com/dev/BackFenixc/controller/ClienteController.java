@@ -15,6 +15,7 @@ import static com.dev.BackFenixc.constantes.MensajesConst.REGISTRO_ELIMINADO_EXI
 
 @RestController
 @RequestMapping("/api/v1/client")
+
 public class ClienteController {
 
     @Autowired

@@ -54,4 +54,7 @@ public class UserEntity {
     @JoinTable(name= "usuario_producto", joinColumns = @JoinColumn (name= "user_id"), inverseJoinColumns = @JoinColumn(name = "id_producto"))
     private Set<Producto> idproducto ;
 
+    public String getName() {
+        return null;
+    }
 }

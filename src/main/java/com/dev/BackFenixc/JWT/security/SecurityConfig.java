@@ -41,6 +41,8 @@ public class SecurityConfig {
                     auth.requestMatchers("/verify-account").permitAll();
                     auth.requestMatchers("/reset-password").permitAll();
                     auth.requestMatchers("/send-reset").permitAll();
+                    auth.requestMatchers("/").permitAll();
+
                     auth.anyRequest().authenticated();
                 })
                 .sessionManagement(session->{

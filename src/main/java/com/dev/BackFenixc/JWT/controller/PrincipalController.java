@@ -21,7 +21,10 @@ import java.time.LocalDateTime;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+
 @RestController
+@CrossOrigin(origins = "http://localhost:4200", allowCredentials = "true")
+
 public class PrincipalController {
     @Autowired
     private UserRepository userRepository;
@@ -40,14 +43,53 @@ public class PrincipalController {
     public String helloSecured(){
         return "hello secured ";
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserDto> getCurrentUser(@RequestParam String email) {
+        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
+                () -> new RuntimeException("User not found with email: " + email));
+        UserDto userDto = new UserDto(userEntity.getName(), userEntity.getEmail());
+        return ResponseEntity.ok(userDto);
+    }
+
+
+// DTO class
+public class UserDto {
+    private String name;
+    private String email;
+
+    public UserDto(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+}
     @PostMapping ("/create")
     public ResponseEntity<?> createUser (@Valid @RequestBody CreateUserDTO createUserDTO){
         String otp = otpUtil.generateOtp();
+
         try{
             emailUtil.sendOtpEmail(createUserDTO.getEmail(), otp);
+
         } catch (jakarta.mail.MessagingException e) {
             throw new RuntimeException("No se genero codigo de activacion"+e);
         }
+
 
         Set<RolEntity> roles= createUserDTO.getRol().stream()
                 .map(rol->RolEntity.builder()
@@ -70,17 +112,18 @@ public class PrincipalController {
     }
 
     @PutMapping("/verify-account")
-    public String verifyAccount (String email, String otp){
+    public String verifyAccount(@RequestParam String email, @RequestParam String otp) {
         UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
-                ()-> new RuntimeException("Este correo "+ email+ " no se encontro")
+                () -> new RuntimeException("Este correo " + email + " no se encontro")
         );
-        if (userEntity.getOtp().equals(otp) && Duration.between(userEntity.getOtpGeneratedTime(),LocalDateTime.now()).getSeconds()<(1000*60)){
+        if (userEntity.getOtp().equals(otp) && Duration.between(userEntity.getOtpGeneratedTime(), LocalDateTime.now()).getSeconds() < (1000 * 60)) {
             userEntity.setActive(true);
             userRepository.save(userEntity);
             return "Correo confirmado";
         }
-        return "Tiempo excedido del codigo, generelo otra vez ";
+        return "Tiempo excedido del codigo, generelo otra vez";
     }
+
 
     @PostMapping("/send-reset")
     public String resetPass (@Valid @RequestBody ResetUtil resetUtil){

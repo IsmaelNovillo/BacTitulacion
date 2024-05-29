@@ -25,7 +25,7 @@ public class EmailUtil {
         mimeMessageHelper.setSubject("Verify OTP");
         mimeMessageHelper.setText("""
         <div>
-          <a href="http://localhost:8080/verify-account?email=%s&otp=%s" target="_blank">click link to verify</a>
+          <a href="http://localhost:8095/verify-account?email=%s&otp=%s" target="_blank">click link to verify</a>
         </div>
         """.formatted(email, otp), true);
 
@@ -38,7 +38,7 @@ public class EmailUtil {
         mimeMessageHelper.setSubject("Reset Password");
         mimeMessageHelper.setText("""
         <div>
-          <a href="http://localhost:8080/reset-password?email=%s&password=%s" target="_blank">click link to verify</a>
+          <a href="http://localhost:8095/reset-password?email=%s&password=%s" target="_blank">click link to verify</a>
         </div>
         """.formatted(email, password), true);
 
