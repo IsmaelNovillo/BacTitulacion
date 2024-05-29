@@ -145,7 +145,7 @@ public class UserDto {
                 ()-> new RuntimeException("Este usuario "+ email+ " no se encontro")
         );
         if (userEntity.isActive()){
-            userEntity.setPassword(resetUtil.getPassword());
+            userEntity.setPassword(passwordEncoder.encode(resetUtil.getPassword()));
             userRepository.save(userEntity);
             return "Contraseña actualizada correctamente";
         }

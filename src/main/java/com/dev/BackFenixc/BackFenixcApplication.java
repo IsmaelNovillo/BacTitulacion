@@ -33,27 +33,22 @@ public class BackFenixcApplication {
 	CommandLineRunner init () {
 		return(args -> {
 			UserEntity userEntity = UserEntity.builder()
-					.email("asd@asd.com")
-					.username("asd")
+					.email("josue.novillo@epn.edu.ec")
+					.username("ismael")
 					.password(passwordEncoder.encode("1234"))
 					.rol(Set.of(RolEntity.builder().rol(ERol.valueOf(ERol.ADMIN.name())).build()))
 					.build();
 			UserEntity userEntity1 = UserEntity.builder()
-					.email("carlos@asd.com")
-					.username("carlos")
+					.email("martin.jimenez@epn.edu.ec")
+					.username("martin")
 					.password(passwordEncoder.encode("1234"))
-					.rol(Set.of(RolEntity.builder().rol(ERol.valueOf(ERol.USER.name())).build()))
+					.rol(Set.of(RolEntity.builder().rol(ERol.valueOf(ERol.ADMIN.name())).build()))
 					.build();
-			UserEntity userEntity2 = UserEntity.builder()
-					.email("ismael@asd.com")
-					.username("ismael")
-					.password(passwordEncoder.encode("1234"))
-					.rol(Set.of(RolEntity.builder().rol(ERol.valueOf(ERol.INVITED.name())).build()))
-					.build();
+
 
 			userRepository.save(userEntity);
 			userRepository.save(userEntity1);
-			userRepository.save(userEntity2);
+
 
 
 		});
