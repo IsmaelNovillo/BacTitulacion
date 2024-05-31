@@ -42,9 +42,7 @@ public class Cliente {
     @JoinColumn (name= "iduser")
     private UserEntity iduser;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "reservacionid")
-    private Reservacion reservacionid;
+
 
 
 

@@ -29,13 +29,16 @@ public class Producto {
     @Column(name = "stockproducto")
     private Integer stockproducto;
 
-    @ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "idtipoproducto")
-    private TipoProducto idtipoproducto;
+    @Column (name = "imagen")
+    private String imagen;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Proveedor.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name= "producto_proveedor", joinColumns = @JoinColumn (name= "producto_id"), inverseJoinColumns = @JoinColumn(name = "id_proveedor"))
-    private Set<Proveedor> idproveedor ;
+    @Column (name = "categoria")
+    private String categoria;
+    /*
+    @ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
+    @JoinColumn (name = "nombrecategoria")
+    private TipoProducto nombrecategoria;*/
+
 
 
 

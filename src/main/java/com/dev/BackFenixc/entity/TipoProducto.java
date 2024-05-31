@@ -14,17 +14,13 @@ import java.util.Date;
 @Table(name = "tipo_produto")
 public class TipoProducto {
     @Id
-    @Column(name = "idtipoproducto", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "idcategoria", nullable = false)
     private Integer id;
 
-    @Column(name = "nombretipoproducto", length = 100)
-    private String nombretipoproducto;
+    @Column(name = "nombrecategoria", length = 100)
+    private String nombrecategoria;
 
-    @Column(name = "fechaElabtipoproducto")
-    private Date fechaElab;
-
-    @Column(name = "fechaExptipoproducto")
-    private Date fechaExp;
 
 
 }

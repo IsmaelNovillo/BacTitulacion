@@ -49,13 +49,15 @@ public class ProductoController {
             datosGuardados.setNomproducto(producto.getNomproducto().toUpperCase());
             datosGuardados.setPrecioprducto(producto.getPrecioprducto());
             datosGuardados.setStockproducto(producto.getStockproducto());
+            datosGuardados.setImagen(producto.getImagen());
+            //datosGuardados.setNombrecategoria(producto.getNombrecategoria());
 
 
             Producto datosActualizados = null;
             try{
                 datosActualizados=productoService.save(datosGuardados);
             }catch ( DataException e){
-                return response(HttpStatus.BAD_REQUEST, e.getMessage().toString());
+                return response(HttpStatus.BAD_REQUEST, e.getMessage());
             }
             return new ResponseEntity<>(datosActualizados, HttpStatus.OK);
         }).orElseGet(() -> ResponseEntity.notFound().build());

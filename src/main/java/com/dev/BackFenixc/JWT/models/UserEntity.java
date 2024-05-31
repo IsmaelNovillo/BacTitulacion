@@ -1,6 +1,5 @@
 package com.dev.BackFenixc.JWT.models;
 
-import com.dev.BackFenixc.entity.Plan;
 import com.dev.BackFenixc.entity.Producto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -45,9 +44,6 @@ public class UserEntity {
     private Set<RolEntity> rol ;
 
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "idplan")
-    private Plan idplan;
 
 
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Producto.class, cascade = CascadeType.PERSIST)
