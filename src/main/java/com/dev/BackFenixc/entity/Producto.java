@@ -23,11 +23,14 @@ public class Producto {
     @Column(name = "nomproducto")
     private String nomproducto;
 
-    @Column(name = "precioprducto")
-    private BigDecimal precioprducto;
+    @Column(name = "descripcionproducto")
+    private String descripcionproducto;
 
     @Column(name = "stockproducto")
     private Integer stockproducto;
+
+    @Column(name = "precioprducto")
+    private BigDecimal precioprducto;
 
     @Column (name = "imagen")
     private String imagen;
