@@ -14,12 +14,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private JwtUtils jwtUtils;
@@ -54,11 +58,18 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
         String token = jwtUtils.GenerateAccessToken(user.getUsername());
         response.addHeader("Authorization", token);
+        //ROLES
+        Collection<? extends GrantedAuthority> authorities = user.getAuthorities();
+        List<String> roles = authorities.stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
 
+        //
         Map<String,Object> httpResponse = new HashMap<>();
         httpResponse.put( "token",token);
         httpResponse.put( "Message","Autentificacion correcta");
         httpResponse.put( "Username",user.getUsername());
+        httpResponse.put("Roles", roles);
 
 
 

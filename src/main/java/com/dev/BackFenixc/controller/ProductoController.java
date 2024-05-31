@@ -19,6 +19,7 @@ import static com.dev.BackFenixc.constantes.MensajesConst.REGISTRO_ELIMINADO_EXI
 @RestController
 @RequestMapping("api/v1/producto")
 public class ProductoController {
+    String [] category = new String[]{"ARTESANIAS", "ALIMENTOS", "ROPA", "OTROS"};
 
     @Autowired
     private ProductoServiceImpl productoService;
