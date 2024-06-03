@@ -44,13 +44,7 @@ public class PrincipalController {
         return "hello secured ";
     }
 
-    @GetMapping("/me")
-    public ResponseEntity<UserDto> getCurrentUser(@RequestParam String email) {
-        UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(
-                () -> new RuntimeException("User not found with email: " + email));
-        UserDto userDto = new UserDto(userEntity.getName(), userEntity.getEmail());
-        return ResponseEntity.ok(userDto);
-    }
+
 
 
 // DTO class

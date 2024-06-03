@@ -44,13 +44,15 @@ public class UserEntity {
     private Set<RolEntity> rol ;
 
 
+    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Producto> products;*/
 
 
+
+    /*
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = Producto.class, cascade = CascadeType.PERSIST)
     @JoinTable(name= "usuario_producto", joinColumns = @JoinColumn (name= "user_id"), inverseJoinColumns = @JoinColumn(name = "id_producto"))
-    private Set<Producto> idproducto ;
+    private Set<Producto> idproducto ;*/
 
-    public String getName() {
-        return null;
-    }
+
 }

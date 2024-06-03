@@ -1,9 +1,13 @@
 package com.dev.BackFenixc.controller;
 
 
+import com.dev.BackFenixc.JWT.models.UserEntity;
+import com.dev.BackFenixc.JWT.repositories.UserRepository;
+import com.dev.BackFenixc.JWT.security.jwt.JwtUtils;
 import com.dev.BackFenixc.dominio.HttpResponse;
 import com.dev.BackFenixc.entity.Producto;
 import com.dev.BackFenixc.service.serviceImpl.ProductoServiceImpl;
+import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,10 +27,26 @@ public class ProductoController {
 
     @Autowired
     private ProductoServiceImpl productoService;
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private JwtUtils jwtUtils;
 
     @PostMapping("/crear")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<?> guardar(@RequestBody Producto producto)throws DataException {
+    public ResponseEntity<?> guardar(@RequestBody Producto producto, HttpServletRequest request)throws DataException {
+        // Extraer el token del encabezado
+        String token = request.getHeader("Authorization").substring(7);
+
+        // Extraer el nombre de usuario del token
+        String username = jwtUtils.getUserFromToken(token);
+
+        // Buscar el usuario en la base de datos
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(null);
+
+        producto.setUser(user);
+
         return new ResponseEntity<>(productoService.save(producto), HttpStatus.OK);
     }
 
@@ -38,6 +58,20 @@ public class ProductoController {
     @GetMapping("/{id}")
     public ResponseEntity<Producto> obtenerPorId(@PathVariable("id") int codigo) {
         return productoService.getById(codigo).map(ResponseEntity::ok)
+                .orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/user")
+    public ResponseEntity<Producto> findById(HttpServletRequest request) {
+        // Extraer el token del encabezado
+        String token = request.getHeader("Authorization").substring(7);
+
+        // Extraer el nombre de usuario del token
+        String username = jwtUtils.getUserFromToken(token);
+
+        // Buscar el usuario en la base de datos
+        UserEntity user = userRepository.findByUsername(username).orElseThrow(null);
+        return productoService.findById((int) user.getId()).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 

@@ -1,11 +1,13 @@
 package com.dev.BackFenixc.service.serviceImpl;
 
+import com.dev.BackFenixc.JWT.models.UserEntity;
 import com.dev.BackFenixc.entity.Producto;
 import com.dev.BackFenixc.repository.ProductoRepository;
 import com.dev.BackFenixc.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.swing.text.html.parser.Entity;
 import java.util.List;
 import java.util.Optional;
 
@@ -27,6 +29,11 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Override
     public Optional<Producto> getById(int id) {
+        return productoRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Producto> findById(Integer id) {
         return productoRepository.findById(id);
     }
 
