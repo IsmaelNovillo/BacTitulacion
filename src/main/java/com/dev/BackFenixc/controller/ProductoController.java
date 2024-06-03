@@ -82,6 +82,7 @@ public class ProductoController {
 
         return (ResponseEntity<Producto>) productoService.getById(codigo).map(datosGuardados -> {
             datosGuardados.setNomproducto(producto.getNomproducto().toUpperCase());
+            datosGuardados.setDescripcionproducto(producto.getDescripcionproducto());
             datosGuardados.setPrecioprducto(producto.getPrecioprducto());
             datosGuardados.setStockproducto(producto.getStockproducto());
             datosGuardados.setImagen(producto.getImagen());
