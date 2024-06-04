@@ -21,6 +21,9 @@ public class CabFacturaController {
     @Autowired
     private CabFacturaServiceImpl cabFacturaService;
 
+    @Autowired
+    private CategoriaController categoriaController;
+
     @PostMapping("/crear")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> guardar(@RequestBody CabFactura cabFactura)throws DataException {

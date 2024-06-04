@@ -95,6 +95,7 @@ public class UserDto {
                 .username(createUserDTO.getUsername())
                 .email(createUserDTO.getEmail())
                 .password(passwordEncoder.encode(createUserDTO.getPassword()))
+                .numero(createUserDTO.getNumero())
                 .otp(otp)
                 .otpGeneratedTime(LocalDateTime.now())
                 .rol(roles)//quemado cliente

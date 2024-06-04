@@ -4,6 +4,7 @@ import com.dev.BackFenixc.entity.Producto;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -29,6 +30,10 @@ public class UserEntity {
     private String username;
     @NotBlank
     private String password ;
+
+    @NotNull
+    private int numero ;
+
     //para correo
     @Column (name = "Verification_code", length = 64)
 
