@@ -2,6 +2,8 @@ package com.dev.BackFenixc.entity;
 
 import com.dev.BackFenixc.JWT.models.UserEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -31,6 +33,8 @@ public class Producto {
     private Integer stockproducto;
 
     @Column(name = "precioprducto")
+    @DecimalMin(value = "0.0", inclusive = false)
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal precioprducto;
 
     @Column(name = "cloudinaryImageId")
