@@ -1,11 +1,16 @@
 package com.dev.BackFenixc.service.serviceImpl;
 
+import com.dev.BackFenixc.JWT.controller.request.CloudinaryResponse;
 import com.dev.BackFenixc.JWT.models.UserEntity;
+import com.dev.BackFenixc.JWT.security.util.FileUploadUtil;
+import com.dev.BackFenixc.JWT.services.CloudinaryService;
 import com.dev.BackFenixc.entity.Producto;
 import com.dev.BackFenixc.repository.ProductoRepository;
 import com.dev.BackFenixc.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.parser.Entity;
 import java.util.List;
@@ -17,10 +22,14 @@ public class ProductoServiceImpl implements ProductoService {
     @Autowired
     private ProductoRepository productoRepository;
 
+    @Autowired
+    private CloudinaryService cloudinaryService;
+
     @Override
     public Producto save(Producto producto) {
         return productoRepository.save(producto);
     }
+
 
     @Override
     public List<Producto> getAll() {
@@ -35,6 +44,18 @@ public class ProductoServiceImpl implements ProductoService {
     @Override
     public Optional<Producto> findById(Integer id) {
         return productoRepository.findById(id);
+    }
+    @Transactional
+    public void uploadImage(final Integer id, final MultipartFile file){
+        final Producto producto = this.productoRepository.findById(id).orElseThrow(
+                ()-> new RuntimeException("No se encontro el producto"));
+        FileUploadUtil.assertAllowed(file,FileUploadUtil.IMAGE_PATTERN);
+        final String fileName = FileUploadUtil.getFileName(file.getOriginalFilename());
+        final CloudinaryResponse response = this.cloudinaryService.uploadFile(file,fileName);
+        producto.setCloudinaryImageId(response.getPublicId());
+        producto.setImageUrl(response.getUrl());
+        this.productoRepository.save(producto);
+
     }
 
 

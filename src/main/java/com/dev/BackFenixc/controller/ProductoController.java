@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 
 import java.util.List;
@@ -50,6 +51,12 @@ public class ProductoController {
         return new ResponseEntity<>(productoService.save(producto), HttpStatus.OK);
     }
 
+    @PostMapping("image/{id}")
+    public ResponseEntity<?> uploadImage (@PathVariable("id") final Integer id, @RequestPart final MultipartFile file){
+        this.productoService.uploadImage(id,file);
+        return ResponseEntity.ok("Imagen cargada exitosamente");
+    }
+
     @GetMapping("/listar")
     public List<Producto> listar() {
         return productoService.getAll();
@@ -85,7 +92,7 @@ public class ProductoController {
             datosGuardados.setDescripcionproducto(producto.getDescripcionproducto());
             datosGuardados.setPrecioprducto(producto.getPrecioprducto());
             datosGuardados.setStockproducto(producto.getStockproducto());
-            datosGuardados.setImagen(producto.getImagen());
+            //datosGuardados.setImagen(producto.getImagen());
             //datosGuardados.setNombrecategoria(producto.getNombrecategoria());
 
 

@@ -1,0 +1,23 @@
+package com.dev.BackFenixc.JWT.security;
+
+import com.cloudinary.Cloudinary;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Configuration
+public class CloudinaryConfig {
+
+    @Bean
+    public Cloudinary cloudinary (){
+        final Map<String, String> config =new HashMap<>();
+        config.put("cloud_name","dnj49kuv8");
+        config.put("api_key","692776974917349");
+        config.put("api_secret","AnOXHel2OZGQh9qVcx1KMPeF-Og");
+        return new Cloudinary(config);
+
+    }
+
+}

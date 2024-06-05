@@ -33,8 +33,11 @@ public class Producto {
     @Column(name = "precioprducto")
     private BigDecimal precioprducto;
 
-    @Column (name = "imagen")
-    private String imagen;
+    @Column(name = "cloudinaryImageId")
+    private String cloudinaryImageId;
+
+    @Column (name = "imageUrl")
+    private String imageUrl;
 
     @Column (name = "categoria")
     private String categoria;
