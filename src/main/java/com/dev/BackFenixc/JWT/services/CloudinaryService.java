@@ -2,6 +2,7 @@ package com.dev.BackFenixc.JWT.services;
 
 import com.cloudinary.Cloudinary;
 import com.dev.BackFenixc.JWT.controller.request.CloudinaryResponse;
+import com.dev.BackFenixc.constantes.FuncErrorException;
 import org.hibernate.query.sqm.produce.function.FunctionArgumentException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,12 +19,12 @@ public class CloudinaryService {
     public CloudinaryResponse uploadFile (final MultipartFile file, final String fileName){
         try{
             final Map result = this.cloudinary.uploader().upload(file.getBytes(),
-                    Map.of("public_id","nhndev/product/"+fileName));
+                    Map.of("public_id","tola/product/"+fileName));
             final String url = (String) result.get("secure_url");
             final String publicId= (String) result.get("public_id");
             return CloudinaryResponse.builder().publicId(publicId).url(url).build();
         }catch (final Exception e){
-            throw new FunctionArgumentException("Failed to upload file");
+            throw new FuncErrorException("Failed to upload file");
         }
     }
 

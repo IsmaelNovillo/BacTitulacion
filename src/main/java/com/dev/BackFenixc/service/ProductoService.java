@@ -17,6 +17,7 @@ public interface ProductoService {
     Optional<Producto> getById(int id);
 
     Optional <Producto> findById (Integer id);
+    List<Producto>findByCategoria(String categoria);
 
 
     void delete (Producto producto);

@@ -37,6 +37,11 @@ public class ProductoServiceImpl implements ProductoService {
     }
 
     @Override
+    public List<Producto> findByCategoria(String categoria) {
+        return (List<Producto>) productoRepository.findByCategoria(categoria);
+    }
+
+    @Override
     public Optional<Producto> getById(int id) {
         return productoRepository.findById(id);
     }

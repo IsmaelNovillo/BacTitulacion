@@ -68,6 +68,11 @@ public class ProductoController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
+    @GetMapping("/listar/{categoria}")
+    public List<Producto> findByCategoria(@PathVariable("categoria") final String categoria) {
+        return productoService.findByCategoria(categoria);
+    }
+
     @GetMapping("/user")
     public ResponseEntity<Producto> findById(HttpServletRequest request) {
         // Extraer el token del encabezado

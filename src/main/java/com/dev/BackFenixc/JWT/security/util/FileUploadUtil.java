@@ -1,5 +1,6 @@
 package com.dev.BackFenixc.JWT.security.util;
 
+import com.dev.BackFenixc.constantes.FuncErrorException;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.io.FilenameUtils;
 import org.hibernate.query.sqm.produce.function.FunctionArgumentException;
@@ -25,12 +26,12 @@ public class FileUploadUtil {
     public static void assertAllowed(MultipartFile file,String pattern){
         final long size = file.getSize();
         if (size>MAX_FILE_SIZE){
-            throw new FunctionArgumentException("Max file size is 2MB");
+            throw new FuncErrorException("Max file size is 2MB");
         }
         final String fileName= file.getOriginalFilename();
         final String extension = FilenameUtils.getExtension(fileName);
         if (!isAllowedExtension(fileName,pattern)){
-            throw new FunctionArgumentException("Format is not allowed");
+            throw new FuncErrorException("Format is not allowed");
         }
     }
     public static String getFileName(final String name){
