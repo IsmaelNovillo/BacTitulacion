@@ -105,7 +105,12 @@ public class UserDto {
 
 
     }
+    //obtener el usuario por id
+    @GetMapping("user/{id}")
+    public ResponseEntity<?>findById(@PathVariable("id") int id){
+        return ResponseEntity.ok(userRepository.findById((long) id));
 
+    }
     @PutMapping("/verify-account")
     public String verifyAccount(@RequestParam String email, @RequestParam String otp) {
         UserEntity userEntity = userRepository.findByEmail(email).orElseThrow(

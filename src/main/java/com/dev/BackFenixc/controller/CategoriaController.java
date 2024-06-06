@@ -1,5 +1,6 @@
 package com.dev.BackFenixc.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -13,11 +14,13 @@ public class CategoriaController {
     ArrayList<String> categorias = new ArrayList<>(Arrays.asList("ARTESANIAS", "ALIMENTOS", "ROPA", "OTROS"));
 
     @GetMapping("/listar")
+    @PreAuthorize("hasRole('ADMIN')")
     public List<String> getAll() {
         return categorias;
     }
 
     @PostMapping("/add/{cate}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String add(@PathVariable("cate") String cate){
         boolean eliminado = categorias.add(cate);
 
@@ -32,6 +35,7 @@ public class CategoriaController {
     }
 
     @PostMapping("/delete/{cate}")
+    @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable("cate") String cate){
         boolean eliminado = categorias.remove(cate);
 
