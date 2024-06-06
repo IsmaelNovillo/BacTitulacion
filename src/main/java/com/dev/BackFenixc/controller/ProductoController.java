@@ -12,6 +12,7 @@ import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -35,6 +36,7 @@ public class ProductoController {
     private JwtUtils jwtUtils;
 
     @PostMapping("/crear")
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<?> guardar(@RequestBody Producto producto, HttpServletRequest request)throws DataException {
         // Extraer el token del encabezado
@@ -52,28 +54,34 @@ public class ProductoController {
     }
 
     @PostMapping("image/{id}")
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     public ResponseEntity<?> uploadImage (@PathVariable("id") final Integer id, @RequestPart final MultipartFile file){
         this.productoService.uploadImage(id,file);
         return ResponseEntity.ok("Imagen cargada exitosamente");
     }
 
     @GetMapping("/listar")
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
+
     public List<Producto> listar() {
         return productoService.getAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
     public ResponseEntity<Producto> obtenerPorId(@PathVariable("id") int codigo) {
         return productoService.getById(codigo).map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/listar/{categoria}")
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
     public List<Producto> findByCategoria(@PathVariable("categoria") final String categoria) {
         return productoService.findByCategoria(categoria);
     }
 
     @GetMapping("/user")
+    //COMO ES CON ELTOKEN NO SE HACE NINGUN CAMBIO
     public ResponseEntity<Producto> findById(HttpServletRequest request) {
         // Extraer el token del encabezado
         String token = request.getHeader("Authorization").substring(7);
@@ -89,6 +97,8 @@ public class ProductoController {
 
     @SuppressWarnings("unchecked")
     @PutMapping("/{id}")
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
+
     public ResponseEntity<Producto> actualizarDatos(@PathVariable("id") int codigo, @RequestBody Producto producto) throws DataException{
 
 
@@ -115,6 +125,8 @@ public class ProductoController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN')")
+
     public ResponseEntity<?> eliminarDatos(@PathVariable("id") Integer codigo) {
         Producto producto = productoService.getById(codigo).orElse(null);
         productoService.delete(producto);
