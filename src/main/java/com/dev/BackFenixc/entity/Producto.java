@@ -57,6 +57,9 @@ public class Producto {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id")
     private UserEntity user;
+    public String getUsername() {
+        return user != null ? user.getUsername() : null;
+    }
 
 
 

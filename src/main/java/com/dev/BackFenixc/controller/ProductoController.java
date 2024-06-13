@@ -60,6 +60,18 @@ public class ProductoController {
         return ResponseEntity.ok("Imagen cargada exitosamente");
     }
 
+    @PostMapping("/{id}/uploadPaymentProof")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<?> uploadPaymentProof(@PathVariable Integer id,
+                                                @RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        String token = request.getHeader("Authorization").substring(7);
+
+        // Extraer el nombre de usuario del token
+        String username = jwtUtils.getUserFromToken(token);
+        productoService.uploadPaymentProof(id, file, username);
+        return ResponseEntity.ok("Comprobante cargado exitosamene");
+    }
+
     @GetMapping("/listar")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
 
@@ -126,11 +138,20 @@ public class ProductoController {
 
     @DeleteMapping("/{id}")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN')")
-
     public ResponseEntity<?> eliminarDatos(@PathVariable("id") Integer codigo) {
         Producto producto = productoService.getById(codigo).orElse(null);
         productoService.delete(producto);
         return response(HttpStatus.OK, REGISTRO_ELIMINADO_EXITO);
+    }
+
+    @PutMapping("/compra/{id}/{cantidad}")
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN')")
+    public String compra (@PathVariable("id") Integer codigo,@PathVariable("cantidad") Integer cantidad){
+        Producto producto = productoService.getById(codigo).orElse(null);
+        assert producto != null;
+        producto.setStockproducto(producto.getStockproducto()-cantidad);
+        productoService.save(producto);
+        return "FELICIDADES POR LA COMPRA, DE "+producto.getStockproducto()+" ELEMENTOS DE ESE PRODUCTO";
     }
 
     private ResponseEntity<HttpResponse>response(HttpStatus httpStatus, String message){

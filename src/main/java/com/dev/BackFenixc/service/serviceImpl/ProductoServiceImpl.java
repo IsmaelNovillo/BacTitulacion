@@ -4,7 +4,9 @@ import com.dev.BackFenixc.JWT.controller.request.CloudinaryResponse;
 import com.dev.BackFenixc.JWT.models.UserEntity;
 import com.dev.BackFenixc.JWT.security.util.FileUploadUtil;
 import com.dev.BackFenixc.JWT.services.CloudinaryService;
+import com.dev.BackFenixc.entity.Detallefactura;
 import com.dev.BackFenixc.entity.Producto;
+import com.dev.BackFenixc.repository.DetallefacturaRepository;
 import com.dev.BackFenixc.repository.ProductoRepository;
 import com.dev.BackFenixc.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +23,9 @@ public class ProductoServiceImpl implements ProductoService {
 
     @Autowired
     private ProductoRepository productoRepository;
+
+    @Autowired
+    private DetallefacturaRepository detallefacturaRepository;
 
     @Autowired
     private CloudinaryService cloudinaryService;
@@ -62,6 +67,32 @@ public class ProductoServiceImpl implements ProductoService {
         this.productoRepository.save(producto);
 
     }
+
+    public void uploadPaymentProof(final Integer id, final MultipartFile file, final String buyerUsername) {
+        final Producto producto = this.productoRepository.findById(id).orElseThrow(
+                () -> new RuntimeException("No se encontró el producto"));
+
+        // Verifica que el archivo es válido
+        FileUploadUtil.assertAllowed(file, FileUploadUtil.IMAGE_PATTERN);
+
+        // Genera un nombre de archivo único
+        final String fileName = FileUploadUtil.getFileName(file.getOriginalFilename());
+
+        // Sube el archivo a Cloudinary (u otro servicio)
+        final CloudinaryResponse response = this.cloudinaryService.uploadFile(file, fileName);
+
+        // Crear una nueva entrada de PaymentProof
+        Detallefactura paymentProof = new Detallefactura();
+        paymentProof.setProductName(producto.getNomproducto());
+        paymentProof.setPaymentProofUrl(response.getUrl());
+        paymentProof.setBuyerUsername(buyerUsername);
+        paymentProof.setSellerUsername(producto.getUsername()); // campo id del usuario
+        paymentProof.setProducto(producto);
+
+        // Guardar PaymentProof en la base de datos
+        detallefacturaRepository.save(paymentProof);
+    }
+
 
 
 

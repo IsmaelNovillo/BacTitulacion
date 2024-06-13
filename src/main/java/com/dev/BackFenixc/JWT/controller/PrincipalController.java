@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -152,10 +153,11 @@ public class UserDto {
         return "Tiempo excedido del codigo, generelo otra vez ";
     }
 
-    @DeleteMapping("/deleteUser")
-    public String deleteUser (@RequestParam String id){
-        userRepository.deleteById(Long.parseLong(id));
-        return "Se ha borrado exitosamende".concat(id);
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/user/{id}")
+    public String deleteUser (@PathVariable("id") int id){
+        userRepository.deleteById(Long.parseLong(String.valueOf(id)));
+        return "Se ha borrado exitosamende".concat(String.valueOf(id));
     }
 
 }

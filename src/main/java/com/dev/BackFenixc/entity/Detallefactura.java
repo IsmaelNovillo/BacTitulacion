@@ -13,26 +13,22 @@ import java.math.BigDecimal;
 @Table(name = "detallefactura")
 public class Detallefactura {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "coddetalle")
     private Integer id;
 
-    @Column(name = "numfactura")
-    private Integer numfactura;
+    private String productName;
 
-    @Column(name = "codproducto")
-    private Integer codproducto;
+    private String paymentProofUrl;
 
-    @Column(name = "catidad")
-    private Integer catidad;
+    private String buyerUsername;
 
-    @Column(name = "valorventaunitario")
-    private Integer valorventaunitario;
+    private String sellerUsername;
 
-    @Column(name = "totaldetalle")
-    private BigDecimal totaldetalle;
+    @ManyToOne
+    @JoinColumn(name = "idproducto")
+    private Producto producto;
 
-    @OneToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinColumn(name = "numfac")
-    private CabFactura numfac;
+
 
 }
