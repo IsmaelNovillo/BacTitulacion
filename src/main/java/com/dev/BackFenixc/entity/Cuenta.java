@@ -13,30 +13,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "cliente")
-public class Cliente {
+@Table(name = "cuenta")
+public class Cuenta {
     @Id
     @GeneratedValue (strategy = GenerationType.IDENTITY)
-    @Column (name = "idCliente")
-    private Integer idcliente;
+    @Column (name = "idCuenta")
+    private Integer idCuenta;
 
-    @Column(name = "rucCliente")
-    private int rucCliente;
+    @Column(name = "numCuenta")
+    private int numCuenta;
 
-    @Column(name = "nomCliente")
-    private String nomCliente;
+    @Column(name = "tipCuenta")
+    private String tipCuenta;
 
-    @Column (name = "apelCliente")
-    private String apelCliente;
+    @Column (name = "Banco")
+    private String banco;
 
-    @Column (name = "dirCliente")
-    private String dirCliente;
+    @Column (name = "nombre")
+    private String nombre;
 
-    @Column(name = "telCliente")
-    private int telCliente;
-
-    @Column(name = "mailCliente")
-    private String mailCliente;
+    @Column(name = "apellido")
+    private String apellido;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
     @JoinColumn (name= "iduser")
