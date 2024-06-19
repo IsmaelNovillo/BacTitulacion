@@ -44,5 +44,15 @@ public class EmailUtil {
 
         javaMailSender.send(mimeMessage);
     }
+    public void sendPurchase(String email, String producto) throws MessagingException, jakarta.mail.MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setTo(email);
+        mimeMessageHelper.setSubject("Tienes una orden de compra");
+        String mensaje = String.format("Tienes una orden de compra por %s", producto);
+        mimeMessageHelper.setText(mensaje, false);
+
+        javaMailSender.send(mimeMessage);
+    }
 
 }

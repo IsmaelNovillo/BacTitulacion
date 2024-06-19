@@ -36,20 +36,13 @@ public class PrincipalController {
 
     @Autowired
     private EmailUtil emailUtil;
-    @GetMapping("/hello")
-    public String hello(){
-        return "hello not secured ";
-    }
-    @GetMapping("/helloSecured")
-    public String helloSecured(){
-        return "hello secured ";
-    }
+
 
 
 
 
 // DTO class
-public class UserDto {
+/*public class UserDto {
     private String name;
     private String email;
 
@@ -73,7 +66,7 @@ public class UserDto {
     public void setEmail(String email) {
         this.email = email;
     }
-}
+}*/
     @PostMapping ("/create")
     public ResponseEntity<?> createUser (@Valid @RequestBody CreateUserDTO createUserDTO){
         String otp = otpUtil.generateOtp();

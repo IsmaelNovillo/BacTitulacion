@@ -4,9 +4,11 @@ package com.dev.BackFenixc.controller;
 import com.dev.BackFenixc.JWT.models.UserEntity;
 import com.dev.BackFenixc.JWT.repositories.UserRepository;
 import com.dev.BackFenixc.JWT.security.jwt.JwtUtils;
+import com.dev.BackFenixc.JWT.security.util.EmailUtil;
 import com.dev.BackFenixc.dominio.HttpResponse;
 import com.dev.BackFenixc.entity.Producto;
 import com.dev.BackFenixc.service.serviceImpl.ProductoServiceImpl;
+import jakarta.mail.MessagingException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +36,8 @@ public class ProductoController {
 
     @Autowired
     private JwtUtils jwtUtils;
+    @Autowired
+    private EmailUtil emailUtil;
 
     @PostMapping("/crear")
     @PreAuthorize("hasRole('EMPRENDEDOR')")
@@ -145,13 +149,13 @@ public class ProductoController {
     }
 
     @PutMapping("/compra/{id}/{cantidad}")
-
-    public String compra (@PathVariable("id") Integer codigo,@PathVariable("cantidad") Integer cantidad){
+    @PreAuthorize("hasAnyRole('EMPRENDEDOR','CLIENT')")
+    public String compra (@PathVariable("id") Integer codigo,@PathVariable("cantidad") Integer cantidad) throws MessagingException {
         Producto producto = productoService.getById(codigo).orElse(null);
         assert producto != null;
         producto.setStockproducto(producto.getStockproducto()-cantidad);
         productoService.save(producto);
-
+        emailUtil.sendPurchase(producto.getEmail(),producto.getNomproducto());
         return "FELICIDADES POR LA COMPRA, DE "+producto.getNomproducto();
     }
 

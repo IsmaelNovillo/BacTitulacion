@@ -60,6 +60,9 @@ public class Producto {
     public String getUsername() {
         return user != null ? user.getUsername() : null;
     }
+    public String getEmail() {
+        return user != null ? user.getEmail() : null;
+    }
 
 
 

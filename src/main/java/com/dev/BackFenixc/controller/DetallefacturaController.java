@@ -8,6 +8,7 @@ import org.hibernate.exception.DataException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,6 +28,7 @@ public class DetallefacturaController {
         return new ResponseEntity<>(objService.save(obj), HttpStatus.OK);
     }
     @PostMapping("/verify/{id}")
+    @PreAuthorize("hasRole('EMPRENDEDOR')")
     @ResponseStatus(HttpStatus.CREATED)
     public String verify(@PathVariable("id") int codigo)throws DataException {
         objService.getById(codigo).map(datosGuardados -> {
