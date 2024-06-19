@@ -88,6 +88,7 @@ public class ProductoServiceImpl implements ProductoService {
         paymentProof.setBuyerUsername(buyerUsername);
         paymentProof.setSellerUsername(producto.getUsername()); // campo id del usuario
         paymentProof.setProducto(producto);
+        paymentProof.setState("PENDIENTE");
 
         // Guardar PaymentProof en la base de datos
         detallefacturaRepository.save(paymentProof);

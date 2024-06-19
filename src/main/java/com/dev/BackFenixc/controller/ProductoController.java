@@ -145,13 +145,14 @@ public class ProductoController {
     }
 
     @PutMapping("/compra/{id}/{cantidad}")
-    @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN')")
+
     public String compra (@PathVariable("id") Integer codigo,@PathVariable("cantidad") Integer cantidad){
         Producto producto = productoService.getById(codigo).orElse(null);
         assert producto != null;
         producto.setStockproducto(producto.getStockproducto()-cantidad);
         productoService.save(producto);
-        return "FELICIDADES POR LA COMPRA, DE "+producto.getStockproducto()+" ELEMENTOS DE ESE PRODUCTO";
+
+        return "FELICIDADES POR LA COMPRA, DE "+producto.getNomproducto();
     }
 
     private ResponseEntity<HttpResponse>response(HttpStatus httpStatus, String message){

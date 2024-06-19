@@ -25,6 +25,8 @@ public class Detallefactura {
 
     private String sellerUsername;
 
+    private String state;
+
     @ManyToOne
     @JoinColumn(name = "idproducto")
     private Producto producto;

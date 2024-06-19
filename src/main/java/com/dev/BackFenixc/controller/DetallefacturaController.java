@@ -26,6 +26,15 @@ public class DetallefacturaController {
     public ResponseEntity<?> guardar(@RequestBody Detallefactura obj)throws DataException {
         return new ResponseEntity<>(objService.save(obj), HttpStatus.OK);
     }
+    @PostMapping("/verify/{id}")
+    @ResponseStatus(HttpStatus.CREATED)
+    public String verify(@PathVariable("id") int codigo)throws DataException {
+        objService.getById(codigo).map(datosGuardados -> {
+            datosGuardados.setState("VERIFICADO");
+            return objService.save(datosGuardados);
+        });
+        return "PRODUCTO VERIFICADO";
+    }
 
     @GetMapping("/listar")
     public List<Detallefactura> listar() {
