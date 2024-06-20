@@ -34,7 +34,7 @@ public class CategoriaController {
 
     }
 
-    @PostMapping("/delete/{cate}")
+    @DeleteMapping("/delete/{cate}")
     @PreAuthorize("hasRole('ADMIN')")
     public String delete(@PathVariable("cate") String cate){
         boolean eliminado = categorias.remove(cate);

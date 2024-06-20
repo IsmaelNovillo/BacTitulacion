@@ -9,10 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,7 +24,7 @@ public class CompraController {
 
     @PutMapping("/compra")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','CLIENT')")
-    public ResponseEntity<String> compra(@RequestBody CarritoCompra carritoCompra) throws MessagingException {
+    public ResponseEntity<String> compra( @RequestBody CarritoCompra carritoCompra) throws MessagingException {
         List<CarritoCompra.ProductoCompra> productos = carritoCompra.getProductos();
 
         for (CarritoCompra.ProductoCompra productoCompra : productos) {
@@ -39,6 +36,6 @@ public class CompraController {
             }
         }
 
-        return new ResponseEntity<>("FELICIDADES POR LA COMPRA", HttpStatus.OK);
+        return new ResponseEntity<>("FELICIDADES POR LA COMPRA, ESPERANDO QUE SE PROCESE ", HttpStatus.OK);
     }
 }

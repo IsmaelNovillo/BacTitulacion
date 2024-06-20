@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.swing.text.html.parser.Entity;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -68,7 +69,7 @@ public class ProductoServiceImpl implements ProductoService {
 
     }
 
-    public void uploadPaymentProof(final Integer id, final MultipartFile file, final String buyerUsername) {
+    public void uploadPaymentProof(final Integer id, final MultipartFile file, final String buyerUsername, final BigDecimal vt) {
         final Producto producto = this.productoRepository.findById(id).orElseThrow(
                 () -> new RuntimeException("No se encontró el producto"));
 
@@ -89,6 +90,7 @@ public class ProductoServiceImpl implements ProductoService {
         paymentProof.setSellerUsername(producto.getUsername()); // campo id del usuario
         paymentProof.setProducto(producto);
         paymentProof.setState("PENDIENTE");
+        paymentProof.setValorTotal(vt);
 
         // Guardar PaymentProof en la base de datos
         detallefacturaRepository.save(paymentProof);

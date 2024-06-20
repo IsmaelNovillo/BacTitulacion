@@ -27,6 +27,8 @@ public class Detallefactura {
 
     private String state;
 
+    private BigDecimal valorTotal;
+
     @ManyToOne
     @JoinColumn(name = "idproducto")
     private Producto producto;

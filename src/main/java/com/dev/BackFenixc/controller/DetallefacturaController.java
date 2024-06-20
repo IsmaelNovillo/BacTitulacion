@@ -35,7 +35,7 @@ public class DetallefacturaController {
             datosGuardados.setState("VERIFICADO");
             return objService.save(datosGuardados);
         });
-        return "PRODUCTO VERIFICADO";
+        return "ORDEN VERIFICADA";
     }
 
     @GetMapping("/listar")

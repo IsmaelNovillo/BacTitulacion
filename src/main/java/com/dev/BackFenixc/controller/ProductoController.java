@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import static com.dev.BackFenixc.constantes.MensajesConst.REGISTRO_ELIMINADO_EXITO;
@@ -64,15 +65,15 @@ public class ProductoController {
         return ResponseEntity.ok("Imagen cargada exitosamente");
     }
 
-    @PostMapping("/{id}/uploadPaymentProof")
+    @PostMapping("/{id}/uploadPaymentProof/{vt}")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<?> uploadPaymentProof(@PathVariable Integer id,
-                                                @RequestParam("file") MultipartFile file,HttpServletRequest request) {
+    public ResponseEntity<?> uploadPaymentProof(@PathVariable Integer id, @PathVariable BigDecimal vt,
+                                                @RequestParam("file") MultipartFile file, HttpServletRequest request) {
         String token = request.getHeader("Authorization").substring(7);
 
         // Extraer el nombre de usuario del token
         String username = jwtUtils.getUserFromToken(token);
-        productoService.uploadPaymentProof(id, file, username);
+        productoService.uploadPaymentProof(id, file, username,vt);
         return ResponseEntity.ok("Comprobante cargado exitosamene");
     }
 
