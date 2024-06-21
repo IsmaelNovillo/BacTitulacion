@@ -54,5 +54,15 @@ public class EmailUtil {
 
         javaMailSender.send(mimeMessage);
     }
+    public void confirmadePurchase(String email, String producto) throws MessagingException, jakarta.mail.MessagingException {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage);
+        mimeMessageHelper.setTo(email);
+        mimeMessageHelper.setSubject("Comprobante aprobado");
+        String mensaje = String.format("Su comprobante ha sido verificado y aceptado por la orde de compra realizada por %s", producto);
+        mimeMessageHelper.setText(mensaje, false);
+
+        javaMailSender.send(mimeMessage);
+    }
 
 }
