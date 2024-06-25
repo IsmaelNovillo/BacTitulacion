@@ -32,7 +32,7 @@ public class CompraController {
             if (producto != null) {
                 producto.setStockproducto(producto.getStockproducto() - productoCompra.getCantidad());
                 productoService.save(producto);
-                emailUtil.sendPurchase(producto.getEmail(), producto.getNomproducto());
+                //emailUtil.sendPurchase(producto.getEmail(), producto.getNomproducto());
             }
         }
 

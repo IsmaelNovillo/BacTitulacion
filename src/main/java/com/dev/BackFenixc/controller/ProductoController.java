@@ -6,6 +6,7 @@ import com.dev.BackFenixc.JWT.repositories.UserRepository;
 import com.dev.BackFenixc.JWT.security.jwt.JwtUtils;
 import com.dev.BackFenixc.JWT.security.util.EmailUtil;
 import com.dev.BackFenixc.dominio.HttpResponse;
+import com.dev.BackFenixc.entity.CompraRequest;
 import com.dev.BackFenixc.entity.Producto;
 import com.dev.BackFenixc.service.serviceImpl.ProductoServiceImpl;
 import jakarta.mail.MessagingException;
@@ -40,6 +41,7 @@ public class ProductoController {
     @Autowired
     private EmailUtil emailUtil;
 
+
     @PostMapping("/crear")
     @PreAuthorize("hasRole('EMPRENDEDOR')")
     @ResponseStatus(HttpStatus.CREATED)
@@ -65,7 +67,19 @@ public class ProductoController {
         return ResponseEntity.ok("Imagen cargada exitosamente");
     }
 
-    @PostMapping("/{id}/uploadPaymentProof/{vt}")
+    @PostMapping("/uploadPaymentProof")
+    @PreAuthorize("hasRole('CLIENT')")
+    public ResponseEntity<?> uploadPaymentProof(@RequestBody CompraRequest compraRequest,
+                                                @RequestParam("file") MultipartFile file,
+                                                HttpServletRequest request) throws MessagingException {
+        String token = request.getHeader("Authorization").substring(7);
+
+        // Extraer el nombre de usuario del token
+        String username = jwtUtils.getUserFromToken(token);
+        productoService.uploadPaymentProof(compraRequest.getProductos(), file, username, compraRequest.getValorTotal());
+        return ResponseEntity.ok("Comprobante cargado exitosamente");
+    }
+    /*@PostMapping("/{id}/uploadPaymentProof/{vt}")
     @PreAuthorize("hasRole('CLIENT')")
     public ResponseEntity<?> uploadPaymentProof(@PathVariable Integer id, @PathVariable BigDecimal vt,
                                                 @RequestParam("file") MultipartFile file, HttpServletRequest request) {
@@ -75,7 +89,7 @@ public class ProductoController {
         String username = jwtUtils.getUserFromToken(token);
         productoService.uploadPaymentProof(id, file, username,vt);
         return ResponseEntity.ok("Comprobante cargado exitosamene");
-    }
+    }*/
 
     @GetMapping("/listar")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
