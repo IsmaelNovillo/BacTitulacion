@@ -69,8 +69,8 @@ public class ProductoController {
 
     @PostMapping("/uploadPaymentProof")
     @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<?> uploadPaymentProof(@RequestBody CompraRequest compraRequest,
-                                                @RequestParam("file") MultipartFile file,
+    public ResponseEntity<?> uploadPaymentProof(@RequestPart("compraRequest") CompraRequest compraRequest,
+                                                @RequestPart("file") MultipartFile file,
                                                 HttpServletRequest request) throws MessagingException {
         String token = request.getHeader("Authorization").substring(7);
 
