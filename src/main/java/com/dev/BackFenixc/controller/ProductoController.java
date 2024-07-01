@@ -4,7 +4,7 @@ package com.dev.BackFenixc.controller;
 import com.dev.BackFenixc.JWT.models.UserEntity;
 import com.dev.BackFenixc.JWT.repositories.UserRepository;
 import com.dev.BackFenixc.JWT.security.jwt.JwtUtils;
-import com.dev.BackFenixc.JWT.security.util.EmailUtil;
+
 import com.dev.BackFenixc.dominio.HttpResponse;
 import com.dev.BackFenixc.entity.CompraRequest;
 import com.dev.BackFenixc.entity.Producto;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
-import java.math.BigDecimal;
+
 import java.util.List;
 
 import static com.dev.BackFenixc.constantes.MensajesConst.REGISTRO_ELIMINADO_EXITO;
@@ -29,7 +29,7 @@ import static com.dev.BackFenixc.constantes.MensajesConst.REGISTRO_ELIMINADO_EXI
 @RestController
 @RequestMapping("api/v1/producto")
 public class ProductoController {
-    String [] category = new String[]{"ARTESANIAS", "ALIMENTOS", "ROPA", "OTROS"};
+
 
     @Autowired
     private ProductoServiceImpl productoService;
@@ -38,8 +38,7 @@ public class ProductoController {
 
     @Autowired
     private JwtUtils jwtUtils;
-    @Autowired
-    private EmailUtil emailUtil;
+
 
 
     @PostMapping("/crear")
@@ -79,17 +78,7 @@ public class ProductoController {
         productoService.uploadPaymentProof(compraRequest.getProductos(), file, username, compraRequest.getValorTotal());
         return ResponseEntity.ok("Comprobante cargado exitosamente");
     }
-    /*@PostMapping("/{id}/uploadPaymentProof/{vt}")
-    @PreAuthorize("hasRole('CLIENT')")
-    public ResponseEntity<?> uploadPaymentProof(@PathVariable Integer id, @PathVariable BigDecimal vt,
-                                                @RequestParam("file") MultipartFile file, HttpServletRequest request) {
-        String token = request.getHeader("Authorization").substring(7);
 
-        // Extraer el nombre de usuario del token
-        String username = jwtUtils.getUserFromToken(token);
-        productoService.uploadPaymentProof(id, file, username,vt);
-        return ResponseEntity.ok("Comprobante cargado exitosamene");
-    }*/
 
     @GetMapping("/listar")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','ADMIN','CLIENT')")
@@ -142,7 +131,7 @@ public class ProductoController {
             //datosGuardados.setNombrecategoria(producto.getNombrecategoria());
 
 
-            Producto datosActualizados = null;
+            Producto datosActualizados;
             try{
                 datosActualizados=productoService.save(datosGuardados);
             }catch ( DataException e){
@@ -163,7 +152,7 @@ public class ProductoController {
         return response(HttpStatus.OK, REGISTRO_ELIMINADO_EXITO);
     }
 
-    @PutMapping("/compra/{id}/{cantidad}")
+    /*@PutMapping("/compra/{id}/{cantidad}")
     @PreAuthorize("hasAnyRole('EMPRENDEDOR','CLIENT')")
     public String compra (@PathVariable("id") Integer codigo,@PathVariable("cantidad") Integer cantidad) throws MessagingException {
         Producto producto = productoService.getById(codigo).orElse(null);
@@ -172,7 +161,7 @@ public class ProductoController {
         productoService.save(producto);
         emailUtil.sendPurchase(producto.getEmail(),producto.getNomproducto());
         return "FELICIDADES POR LA COMPRA, DE "+producto.getNomproducto();
-    }
+    }*/
 
     private ResponseEntity<HttpResponse>response(HttpStatus httpStatus, String message){
         return new ResponseEntity<>(new HttpResponse(httpStatus.value(),httpStatus, httpStatus.getReasonPhrase().toUpperCase(),message),httpStatus);

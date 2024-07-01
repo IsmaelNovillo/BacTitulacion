@@ -4,6 +4,8 @@ import com.dev.BackFenixc.JWT.models.UserEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,14 +26,15 @@ public class Producto {
     private Integer id;
 
     @Column(name = "nomproducto")
+    @NotBlank
     private String nomproducto;
-
+    @NotNull
     @Column(name = "descripcionproducto")
     private String descripcionproducto;
-
+    @NotNull
     @Column(name = "stockproducto")
     private Integer stockproducto;
-
+    @NotNull
     @Column(name = "precioprducto")
     @DecimalMin(value = "0.0", inclusive = false)
     @Digits(integer = 10, fraction = 2)
@@ -44,25 +47,18 @@ public class Producto {
     private String imageUrl;
 
     @Column (name = "categoria")
+    @NotNull
     private String categoria;
-    /*
-    @ManyToOne (fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)
-    @JoinColumn (name = "nombrecategoria")
-    private TipoProducto nombrecategoria;*/
-
-    /*
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = UserEntity.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name= "usuario_producto",  joinColumns = @JoinColumn(name = "id_producto"),inverseJoinColumns = @JoinColumn (name= "user_id"))
-    private Set<UserEntity> User_id ;*/
+    //relacion con usuario
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "id")
     private UserEntity user;
-    public String getUsername() {
+    public String getUsername() {//obtener el nombre del usuario por medio del producto
         return user != null ? user.getUsername() : null;
     }
     public String getEmail() {
         return user != null ? user.getEmail() : null;
-    }
+    }//obtener el email del usuario por medio del producto
 
 
 

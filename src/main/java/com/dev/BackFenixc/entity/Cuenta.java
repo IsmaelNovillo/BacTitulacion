@@ -3,6 +3,8 @@ package com.dev.BackFenixc.entity;
 import com.dev.BackFenixc.JWT.models.UserEntity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -21,18 +23,23 @@ public class Cuenta {
     private Integer idCuenta;
 
     @Column(name = "numCuenta")
+    @NotNull
     private int numCuenta;
 
     @Column(name = "tipCuenta")
+    @NotBlank
     private String tipCuenta;
 
     @Column (name = "Banco")
+    @NotBlank
     private String banco;
 
     @Column (name = "nombre")
+    @NotBlank
     private String nombre;
 
     @Column(name = "apellido")
+    @NotBlank
     private String apellido;
 
     @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.PERSIST)

@@ -30,10 +30,8 @@ public class UserEntity {
     private String username;
     @NotBlank
     private String password ;
-
     @NotNull
     private int numero ;
-
     //para correo
     @Column (name = "Verification_code", length = 64)
 
@@ -47,17 +45,5 @@ public class UserEntity {
     @ManyToMany(fetch = FetchType.EAGER, targetEntity = RolEntity.class, cascade = CascadeType.PERSIST)
     @JoinTable(name= "user_roles", joinColumns = @JoinColumn (name= "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<RolEntity> rol ;
-
-
-    /*@OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private Set<Producto> products;*/
-
-
-
-    /*
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Producto.class, cascade = CascadeType.PERSIST)
-    @JoinTable(name= "usuario_producto", joinColumns = @JoinColumn (name= "user_id"), inverseJoinColumns = @JoinColumn(name = "id_producto"))
-    private Set<Producto> idproducto ;*/
-
 
 }
